@@ -11,7 +11,7 @@ CREATE TABLE `ps2`.`bancos` (
 );
 ```
 
-##Pastas e Arquivos
+## Pastas e Arquivos
 * **lib** - Contém as bibliotecas usadas no projeto
 * **src** - Código fonte do projeto
 * **src/br.mackenzie.ps2.Banco.java** - Entidade que representa um Banco e é utilizada pelo DAO para mapeamento no Banco de Dados
