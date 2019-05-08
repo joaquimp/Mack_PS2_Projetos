@@ -1,10 +1,11 @@
-package br.mackenzie.professores;
+package br.mackenzie.ws;
 
 /**
  *
  * @author Joaquim Pessôa Filho
  * 
  */
+import br.mackenzie.professores.Professor;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import io.dropwizard.jersey.params.*;
@@ -12,12 +13,12 @@ import java.util.*;
 
 @Path("/professores")
 @Produces(MediaType.APPLICATION_JSON)
-public class ProfessorDAO {    
+public class ProfessorResource {    
     
     private final List<Professor> professores;
     private long proximoId;
     
-    public ProfessorDAO() {
+    public ProfessorResource() {
         proximoId = 1;
         professores = new ArrayList<>();
         professores.add(new Professor(proximoId++, "Marcos", 11111));
