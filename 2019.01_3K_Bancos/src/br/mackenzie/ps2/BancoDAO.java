@@ -45,7 +45,6 @@ public class BancoDAO {
         }
     }
     
-    @SuppressWarnings("CallToPrintStackTrace")
     public List<Banco> lerTodos() {
         try{
             ResultSet rs = this.stmtR.executeQuery();
@@ -66,7 +65,6 @@ public class BancoDAO {
         return null;
     }
     
-    @SuppressWarnings("CallToPrintStackTrace")
     public Banco criar(Banco b) {
         try{
             this.stmtC.setString(1, b.getNome());
@@ -86,7 +84,6 @@ public class BancoDAO {
         return null;
     }
     
-    @SuppressWarnings("CallToPrintStackTrace")
     public boolean atualizar(Banco b) {
         try{
             this.stmtU.setString(1, b.getNome());
@@ -102,10 +99,9 @@ public class BancoDAO {
         return false;
     }
     
-    @SuppressWarnings("CallToPrintStackTrace")
-    public boolean apagar(Banco b) {
+    public boolean apagar(int id) {
         try{
-            this.stmtD.setInt(1, b.getId());
+            this.stmtD.setInt(1, id);
             return this.stmtD.executeUpdate() > 0;
         }catch(SQLException e) {
             e.printStackTrace();
