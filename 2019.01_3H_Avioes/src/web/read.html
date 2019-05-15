@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Aviões (read)</title>
+  <meta charset="UTF-8">
+</head>
+
+<body>
+  <p><a href="index.html">&lt; Voltar para página inicial</a></p>
+  <h1>Aviões</h1>
+  <p style="font-weight:bold" id="contador"></p>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Modelo</th>
+      <th>Preço</th>
+    </tr>
+    <tbody id="avioes">
+    </tbody>
+  </table>
+  <script>
+    const avioesTable = document.getElementById("avioes");
+    
+
+    function preencherTabela(json) {
+      const qtdAvioes = json.length;
+      var avioes = "";
+      for (i = 0; i < qtdAvioes; i++) {
+        const aviao = json[i];
+        avioes += `<tr><td>${aviao.id}</td><td>${aviao.modelo}</td><td>${aviao.preco}</td></tr>`;
+      }
+      avioesTable.innerHTML = avioes;
+    }
+
+    function inicializar() {
+      const consulta = fetch("/api/v1/avioes");
+      consulta.then(function (resposta) {
+        const jsonPromisse = resposta.json();
+        jsonPromisse.then(function (json) {
+          preencherTabela(json);
+        });
+      });
+    }
+
+    function inicializarModelo2() {
+      const url = "/api/v1/avioes";
+      fetch(url).then(resposta => resposta.json()).then(json => preencherTabela(json));
+    }
+
+    async function inicializarModelo3() {
+      const url = "/api/v1/avioes";
+      const resposta = await fetch(url);
+      const json = await resposta.json();
+      preencherTabela(json);
+    }
+
+    inicializarModelo3();
+  </script>
+</body>
+
+</html>

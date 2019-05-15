@@ -111,25 +111,5 @@ public class AvioesDAO {
         }
         return false;
     }
-    
-    public static void main(String argumentos[]) {
-        AvioesDAO dao = new AvioesDAO();
-        
-        Aviao a = new Aviao();
-        a.setId(99999);
-        a.setModelo("Tecoteco");
-        a.setPreco(400000);
-        
-        Aviao aviaoSalvo = dao.criar(a);
-        
-        a.setModelo("Novo tecoteco");
-        a.setPreco(4);
-        dao.atualizar(4, a);
-        dao.apagar(1);
-        
-        List<Aviao> avioes = dao.lerTodos();
-        
-        
-        System.out.println(avioes.size());
-    }
+
 }

@@ -22,6 +22,9 @@ public class RestApp extends Application<Configuration> {
     
     @Override
     public void initialize(final Bootstrap<Configuration> bootstrap) {
+        //Mapeia a pasta "src/html" para a url "http://localhost:8080/" e
+        // por padrao abre o arquivo index.html quando um recurso especifico
+        // nao for informado
         bootstrap.addBundle(new AssetsBundle("/html", "/", "index.html"));
     }
 
@@ -30,6 +33,9 @@ public class RestApp extends Application<Configuration> {
         ConexaoJavaDB conexao = new ConexaoJavaDB("root", "", "jdbc:mysql://localhost", 3306, "ps2");
         ProfessorDAO professorDao = new ProfessorDAO(conexao);
         environment.jersey().register(new ProfessorResource(professorDao));
+        
+        // Mapeia todos os WebServices para a rota base 
+        // "http://localhost:8080/api/"
         environment.jersey().setUrlPattern("/api/*");
     }
 }
