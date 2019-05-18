@@ -1,15 +1,199 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 
 <head>
-  <title>Tarefas</title>
+  <title>Professores SPA</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Desativa o Cache -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="bootstrap-4/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
-    <a href="create.html">Criar novo professor</a><br/>
-    <a href="read.html">Ler todos os professores</a><br/>
-    <a href="update.html">Atualizar professor</a><br/>
-    <a href="delete.html">Apagar professor</a>
+
+  <!-- Barra de navegação -->
+  <nav class="navbar navbar-dark bg-primary">
+    <span class="navbar-brand" href="#">Sistema de Gerênciamento de Professores</span>
+  </nav>
+
+  <!-- texto inicial -->
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Sistema de Exemplo</h1>
+      <p class="lead text-muted">
+        Este exemplo foi desenvolvido para ajudar os alunos da disciplina de Programação de Sistemas 2.
+      </p>
+      <p>
+        O objetivo não é apresentar a melhor formar de se trabalhar com Single Page Application, mas
+        ajudar o aluno a entender como este tipo de aplicação funciona.
+      </p>
+    </div>
+  </section>
+
+  <!-- Table com os dados dos professores -->
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8">
+
+        <!-- botoes com ações gerais -->
+        <p class="float-right">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Novo
+            Professor</button>
+          <button type="button" class="btn btn-info" onClick="readTeachers()">Recarregar</button>
+        </p>
+
+        <!-- Tabela com a lista de professores -->
+        <table class="table table-striped">
+          <thead class="table-dark text-center">
+            <tr class="align-middle">
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Matrícula</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="professores"></tbody>
+        </table>
+      </div> <!-- end col -->
+
+      <!-- Tablea de LOG -->
+      <div class="col-sm-4">
+        <p class="h3 text-center">Log</p>
+        <table class="table table-striped small">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">DATA</th>
+              <th scope="col">LOG</th>
+            </tr>
+          </thead>
+          <tbody id="logger"></tbody>
+        </table>
+      </div>
+    </div> <!-- end-row -->
+  </div>
+
+  <!-- Modal CREATE -->
+  <div class="modal fade" id="createModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Professor</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetCreateForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="idInput">Identificador</label>
+              <input type="number" class="form-control" id="idInput" aria-describedby="idHelp" placeholder="--"
+                disabled>
+              <small id="idHelp" class="form-text text-muted">Gerado automaticamente pela aplicação</small>
+            </div>
+            <div class="form-group">
+              <label for="nameInput">Nome</label>
+              <input type="text" class="form-control" id="nameInput" aria-describedby="nameHelp"
+                placeholder="nome do professor">
+              <small id="nameHelp" class="form-text text-muted">Informe o nome completo</small>
+            </div>
+            <div class="form-group">
+              <label for="registryInput">Password</label>
+              <input type="number" class="form-control" id="registryInput" placeholder="12345">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="createTeacher()">Criar</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            onclick="resetCreateForm()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal UPDATE -->
+  <div class="modal fade" id="updateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Atualizar dados do Professor</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetUpdateForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="idUpdateInput">Identificador</label>
+              <input type="number" class="form-control" id="idUpdateInput" aria-describedby="idHelp" placeholder="--"
+                disabled>
+            </div>
+            <div class="form-group">
+              <label for="nameUpdateInput">Nome</label>
+              <input type="text" class="form-control" id="nameUpdateInput" placeholder="nome do professor">
+            </div>
+            <div class="form-group">
+              <label for="registryUpdateInput">Password</label>
+              <input type="number" class="form-control" id="registryUpdateInput" placeholder="12345">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal"
+            onclick="updateTeacher()">Atualizar</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            onclick="resetUpdateForm()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal DELETE -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Apagar Professor</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetDeleteModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Apagar dados do(a) professor(a): <span class="font-weight-bold" id="teacherSelected"></span></p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteTeacher()">Apagar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+              onclick="resetDeleteModal()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- bootstrap scripts -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+  </script>
+  <script src="bootstrap-4/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+  </script>
+
+  <!-- Meus scripts -->
+  <script src="js/main.js"></script>
 </body>
 
 </html>
