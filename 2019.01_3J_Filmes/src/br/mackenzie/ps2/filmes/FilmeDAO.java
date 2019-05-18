@@ -110,22 +110,4 @@ public class FilmeDAO {
             return false;
         }
     }
-    
-    public static void main(String args[]) {
-        
-        Filme teste = new Filme(99999,"E o vento levou", "comédia", 1);
-        
-        
-        FilmeDAO dao = new FilmeDAO();
-        
-        Filme filmeInserido = dao.inserir(teste);
-        dao.apagar(filmeInserido.getId());
-        
-        
-        List<Filme> fs = dao.lerTudo();
-        fs.get(0).setGenero("Musical");
-        dao.atualizar(fs.get(0));
-        
-        System.out.println(fs.size());
-    }
 }

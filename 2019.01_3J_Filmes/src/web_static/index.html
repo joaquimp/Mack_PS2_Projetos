@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Filmes</h1>
+        <table border="1">
+            <thead>
+                <td>id</td>
+                <td>titulo</td>
+                <td>genero</td>
+                <td>minutos</td>
+            </thead>
+            <tbody id="filmes">
+                
+            </tbody>
+        </table>
+        <script>
+            const tabelaFilmes = document.getElementById("filmes");
+
+            // const consulta = fetch("/cinema/filmes");
+            // consulta.then(function(resposta) {
+            //   const json = await resposta.json();
+              
+            // });
+
+            async function listarFilmes(){
+              tabelaFilmes.innerHTML = "loading";
+              const resposta = await fetch("/cinema/filmes");
+              const json = await resposta.json();
+
+              tabelaFilmes.innerHTML = "";
+              for(i in json) {
+                tabelaFilmes.innerHTML += `<td>${json[i].id}</td><td>${json[i].titulo}</td><td>${json[i].genero}</td><td>${json[i].minutos}</td>`;
+              }
+            }
+
+            listarFilmes();
+
+            // 
+        </script>
+    </body>
+</html>

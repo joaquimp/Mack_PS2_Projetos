@@ -2,13 +2,14 @@
 <html>
 
 <head>
-  <title>Professores (update)</title>
+  <title>Professores (delete)</title>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="/site/sakura.css">
 </head>
 
 <body>
-  <p><a href="/">&lt; Voltar para página inicial</a></p>
-  <h1>Atualizar professor</h1>
+  <p><a href="/site">&lt; Voltar para página inicial</a></p>
+  <h1>Apagar professor</h1>
   <table>
     <tr>
     </tr>
@@ -16,15 +17,15 @@
     <td id="idProfessor"></td>
     <tr>
       <td>Nome:</td>
-      <td><input type="text" id="txtNome"></td>
+      <td id="nomeProfessor"></td>
     </tr>
     <tr>
       <td>Matrícula:</td>
-      <td><input type="text" id="txtMatricula"></td>
+      <td id="matriculaProfessor"></td>
     </tr>
     <tr>
       <td></td>
-      <td><input type="button" onclick="atualizarProfessor()" value="Salvar"></td>
+      <td><input type="button" onclick="apagarProfessor()" value="Apagar"></td>
     </tr>
   </table>
   <p style="font-weight:bold" id="mensagem"></p>
@@ -40,42 +41,33 @@
   <script>
     const corpoTabela = document.querySelector('#professores');
     const paragrafoMensagem = document.querySelector('#mensagem');
-    const textoNome = document.querySelector('#txtNome');
-    const textoMatricula = document.querySelector('#txtMatricula');
+    const celulaNome = document.querySelector('#nomeProfessor');
+    const celulaMatricula = document.querySelector('#matriculaProfessor');
     const celulaID = document.querySelector('#idProfessor');
 
     function inicializar() {
       paragrafoMensagem.innerHTML = 'Selecione um professor:'
       celulaID.innerHTML = '';
-      textoNome.value = '';
-      textoMatricula.value = '';
+      celulaNome.innerHTML = '';
+      celulaMatricula.innerHTML = '';
       listarTodosProfessores();
     }
 
     function selecionarProfessor(id, nome, matricula) {
-      paragrafoMensagem.innerHTML = 'Altere os dados do professor e pressione o botão Salvar.'
+      paragrafoMensagem.innerHTML = 'Pressione o botão Apagar para remover o professor.'
       celulaID.innerHTML = id;
-      textoNome.value = nome;
-      textoMatricula.value = matricula;
+      celulaNome.innerHTML = nome;
+      celulaMatricula.innerHTML = matricula;
     }
-    async function atualizarProfessor() {
+    async function apagarProfessor() {
       if (celulaID.innerHTML == '') return;
       const ID = celulaID.innerHTML;
       const URL = `/api/professores/${ID}`;
-      const dadosProfessor = {
-        'id': ID,
-        'nome': textoNome.value,
-        'matricula': textoMatricula.value
-      };
-      const putRequest = {
-        method: 'PUT',
-        body: JSON.stringify(dadosProfessor),
-        headers: {
-          'Content-type': 'application/json;charset=UTF-8'
-        }
+      const deleteRequest = {
+        method: 'DELETE'
       };
       try {
-        fetch(URL, putRequest).then(response => inicializar());
+        fetch(URL, deleteRequest).then(resposta => inicializar());
       } catch (e) {
         corpoTabela.innerHTML = e;
       }
@@ -87,9 +79,9 @@
       for (var i = 0; i < n; i++) {
         var professor = professores[i];
         linhasTabela +=
-          `<tr><td><a href="javascript:void(0)" onclick="selecionarProfessor('${professor.id}','${professor.nome}','${professor.matricula}')">`+
+          `<tr><td><a href="javascript:void(0)" onclick="selecionarProfessor('${professor.id}','${professor.nome}','${professor.matricula}')">` +
           professor.id + '</a></td>' +
-          `<td>${professor.nome}</td>` +
+          '<td>' + professor.nome + '</td>' +
           '<td>' + professor.matricula + '</td></tr>\n';
       }
       corpoTabela.innerHTML = linhasTabela;
